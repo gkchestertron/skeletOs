@@ -36,6 +36,12 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y) {
         terminal_row++;
         terminal_column = 0;
     }
+    else if (c == '\b') {
+        terminal_column -= 2;
+        x--;
+        const size_t index = y * VGA_WIDTH + x;
+        terminal_buffer[index] = make_vgaentry(' ', color);
+    }
     else {
         const size_t index = y * VGA_WIDTH + x;
         terminal_buffer[index] = make_vgaentry(c, color);
