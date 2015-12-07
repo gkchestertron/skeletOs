@@ -4,26 +4,22 @@
 #include <stdio.h>
 
 #include <kernel/tty.h>
+#include <kernel/key.h>
 
 void kernel_early(void) {
 	terminal_initialize();
 }
 
 void kernel_main(void) {
-	printf("skeletOs welcomes you!\n");
-    printf("\nskOsh>");
+	printf(" skeletOs welcomes you!\n");
+    printf("\nskOsh> ");
     int lastc = 0;
 
-    while (lastc < 30) {
-        putchar(65);
-        lastc++;
+    while (1) {
+        int c = (int) getScancode();
+        if (c != lastc) {
+            putchar(c);
+        }
+        lastc = c;
     }
-
-    /* while (1) { */
-    /*     int c = (int) getScancode(); */
-    /*     if (c != lastc) { */
-    /*         putchar(c); */
-    /*     } */
-    /*     lastc = c; */
-    /* } */
 }
