@@ -51,16 +51,21 @@ uint8_t inb(uint16_t port)
     /* TODO: Should %1 be %w1? */
     return ret;
 }
-char getScancode()
+char get_scancode()
 {
     char c=0;
     do {
         if(inb(0x60)!=c)
         {
             c=inb(0x60);
-            if(c>0) {
-                return kbdus[c];
-            }
+            if(c>0)
+                return c;
         }
     }while(1);
 }
+
+char get_char() {
+    char c = get_scancode();
+    return kbdus[c];
+}
+

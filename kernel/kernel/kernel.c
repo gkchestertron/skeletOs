@@ -12,13 +12,16 @@ void kernel_early(void) {
 
 void kernel_main(void) {
 	printf(" skeletOs welcomes you!\n");
-    printf("\nskOsh> ");
+    printf("\nskOsh?> ");
     int lastc = 0;
 
     while (1) {
-        int c = (int) getScancode();
+        char c = get_char();
         if (c != lastc) {
-            putchar(c);
+            if (c == '\n')
+                printf("\nskOsh?> ");
+            else
+                putchar(c);
         }
         lastc = c;
     }

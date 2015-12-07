@@ -4,6 +4,7 @@
 #include <stddef.h>
 
 uint8_t inb(uint16_t port);
-char getScancode();
+char get_scancode();
+char get_char();
 
 #endif
