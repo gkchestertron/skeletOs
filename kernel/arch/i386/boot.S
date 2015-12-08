@@ -12,6 +12,29 @@
 .long FLAGS
 .long CHECKSUM
 
+# GDT setup
+.global _gdt_flush
+.extern _gp
+_gdt_flush:
+    lgdt (_gp)
+    mov %ax, 0x10
+    mov %ds, %ax
+    mov %es, %ax
+    mov %fs, %ax
+    mov %gs, %ax
+    mov %ss, %ax
+    jmp 0x08
+    jmp flush2
+flush2:
+    ret
+
+# IDT setup
+.global _idt_load
+.extern _idtp
+_idt_load:
+    lidt (_idtp)
+    ret
+
 # Reserve a stack for the initial thread.
 .section .bootstrap_stack, "aw", @nobits
 stack_bottom:
@@ -24,9 +47,6 @@ stack_top:
 .type _start, @function
 _start:
 	movl $stack_top, %esp
-
-	# Initialize the core kernel before running the global constructors.
-	call kernel_early
 
 	# Call the global constructors.
 	call _init
