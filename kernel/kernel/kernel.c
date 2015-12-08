@@ -10,14 +10,17 @@
 #include <kernel/tty.h>
 #include <kernel/key.h>
 
-void kernel_main(void) {
+void kernel_early (void) {
     gdt_install(); 
     idt_install();
     isrs_install();
     irq_install();
     __asm__ __volatile__ ("sti");
 	terminal_initialize();
+}
+
+void kernel_main(void) {
 	printf(" skeletOs welcomes you!\n");
     printf("\nskOsh?> ");
-    int lastc = 0;
+    while (1) {}
 }

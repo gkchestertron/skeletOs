@@ -1,4 +1,3 @@
-# In just a few pages in this tutorial, we will add our Interrupt
 # Service Routines (ISRs) right here!
 .global _isr0
 .global _isr1

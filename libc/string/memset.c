@@ -1,9 +1,8 @@
 #include <string.h>
 
-void* memset(void* bufptr, int value, size_t size)
+void *memset(void *dest, char val, size_t count)
 {
-	unsigned char* buf = (unsigned char*) bufptr;
-	for ( size_t i = 0; i < size; i++ )
-		buf[i] = (unsigned char) value;
-	return bufptr;
-}
+    char *temp = (char *)dest;
+    for( ; count != 0; count--) *temp++ = val;
+    return dest;
+}   
