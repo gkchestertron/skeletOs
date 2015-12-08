@@ -108,8 +108,7 @@ _isr0:
     push 0    # A normal ISR stub that pops a dummy error code to keep a
                    # uniform stack frame
     push 0
-    /* jmp isr_common_stub */
-	iret
+    jmp isr_common_stub
 
 #  1: Debug Exception
 _isr1:
@@ -350,17 +349,14 @@ _irq0:
     cli
     push 0    # Note that these don't push an error code on the stack:
     push 32
-    /* jmp irq_common_stub */
-	/* iret */
-	hlt
+    jmp irq_common_stub
 
 # 33: IRQ1
 _irq1:
     cli
     push 0    # Note that these don't push an error code on the stack:
     push 33
-    /* jmp irq_common_stub */
-	iret
+    jmp irq_common_stub
 
 # 34: IRQ2
 _irq2:
