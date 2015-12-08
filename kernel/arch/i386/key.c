@@ -51,6 +51,7 @@ uint8_t inb(uint16_t port)
     /* TODO: Should %1 be %w1? */
     return ret;
 }
+
 char get_scancode()
 {
     char c=0;
