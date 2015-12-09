@@ -10,8 +10,7 @@ size_t terminal_column;
 uint8_t terminal_color;
 uint16_t* terminal_buffer;
 
-void terminal_initialize(void)
-{
+void terminal_initialize(void) {
 	terminal_row = 0;
 	terminal_column = 0;
 	terminal_color = make_color(COLOR_LIGHT_GREEN, COLOR_BLACK);
@@ -26,8 +25,7 @@ void terminal_initialize(void)
 	}
 }
 
-void terminal_setcolor(uint8_t color)
-{
+void terminal_setcolor(uint8_t color) {
 	terminal_color = color;
 }
 

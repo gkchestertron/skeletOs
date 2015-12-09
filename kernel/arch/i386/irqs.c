@@ -76,4 +76,3 @@ void default_handler() {
 void timer() {
     outb(0x20, 0x20);
 }
-
