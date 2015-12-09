@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <kernel/isrs.h>
+#include <kernel/io.h>
 
 void outportb (unsigned short _port, unsigned char _data);
 void irq_install_handler(int irq, void (*handler)(struct regs *r));

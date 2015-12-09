@@ -1,4 +1,4 @@
-#include <kernel/isrs.h>
+#include <kernel/idt.h>
 
 /* These are function prototypes for all of the exception
 *  handlers: The first 32 entries in the IDT are reserved

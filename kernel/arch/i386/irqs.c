@@ -1,4 +1,7 @@
-#include <kernel/isrs.h>
+#include <stdio.h>
+
+#include <kernel/idt.h>
+#include <kernel/io.h>
 
 /* These are own ISRs that point to our special IRQ handler
 *  instead of the regular 'fault_handler' function */
@@ -18,11 +21,6 @@ extern void _irq12();
 extern void _irq13();
 extern void _irq14();
 extern void _irq15();
-
-void outportb (unsigned short _port, unsigned char _data)
-{
-    __asm__ __volatile__ ("outb %1, %0" : : "dN" (_port), "a" (_data));
-}
 
 /* This array is actually an array of function pointers. We use
 *  this to handle custom IRQ handlers for a given IRQ */
@@ -54,16 +52,16 @@ void irq_uninstall_handler(int irq)
 *  47 */
 void irq_remap(void)
 {
-	outportb(0x20, 0x11);
-	outportb(0xA0, 0x11);
-	outportb(0x21, 0x20);
-	outportb(0xA1, 0x28);
-	outportb(0x21, 0x04);
-	outportb(0xA1, 0x02);
-	outportb(0x21, 0x01);
-	outportb(0xA1, 0x01);
-	outportb(0x21, 0x0);
-	outportb(0xA1, 0x0);
+	outb(0x20, 0x11);
+	outb(0xA0, 0x11);
+	outb(0x21, 0x20);
+	outb(0xA1, 0x28);
+	outb(0x21, 0x04);
+	outb(0xA1, 0x02);
+	outb(0x21, 0x01);
+	outb(0xA1, 0x01);
+	outb(0x21, 0x0);
+	outb(0xA1, 0x0);
 }
 
 /* We first remap the interrupt controllers, and then we install
@@ -118,10 +116,10 @@ void _irq_handler(struct regs *r)
     *  the slave controller */
     if (r->int_no >= 40)
     {
-        outportb(0xA0, 0x20);
+        outb(0xA0, 0x20);
     }
 
     /* In either case, we need to send an EOI to the master
     *  interrupt controller too */
-    outportb(0x20, 0x20);
+    outb(0x20, 0x20);
 }

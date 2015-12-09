@@ -9,19 +9,15 @@
 #include <kernel/irqs.h>
 #include <kernel/tty.h>
 #include <kernel/key.h>
+#include <kernel/io.h>
 
 int timers = 0;
 
 void timer() {
-    printf("timer");
+    outb(0x20, 0x20);
 }
 
-void keyboard() {
-    printf("---keypress---");
 
-    outportb(0x21, ~0x03);
-    outportb(0xA1, ~0x00);
-}
 
 void other_handler() {
     printf("---other---");

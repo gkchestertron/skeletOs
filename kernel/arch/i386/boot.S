@@ -344,7 +344,7 @@ isr_common_stub:
 
 # 32: IRQ0
 _irq0:
-    /* cli */
+    cli
     /* push 0    # Note that these don't push an error code on the stack: */
     /* push 32 */
     /* sli */
@@ -352,21 +352,17 @@ _irq0:
    	pushal
     cld
     call timer
-	mov $0x20, %al 
-  	out %al, $0x20 
     popal
     iret
 
 # 33: IRQ1
 _irq1:
-    /* cli */
+    cli
     /* push 0    # Note that these don't push an error code on the stack: */
     /* push 33 */
 	pushal
     cld
     call keyboard
-	mov $0x20, %al 
-  	out %al, $0x21 
     popal
     iret
    
@@ -478,6 +474,4 @@ irq_common_stub:
     cld
     call other_handler
     popal
-	mov 0x20, %al 
-  	out %al, $0x20 
     iret
