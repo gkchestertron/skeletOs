@@ -11,18 +11,6 @@
 #include <kernel/key.h>
 #include <kernel/io.h>
 
-int timers = 0;
-
-void timer() {
-    outb(0x20, 0x20);
-}
-
-
-
-void other_handler() {
-    printf("---other---");
-}
-
 void kernel_early (void) {
     gdt_install(); 
     idt_install();
