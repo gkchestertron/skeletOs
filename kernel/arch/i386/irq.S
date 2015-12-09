@@ -26,9 +26,11 @@ _irq0:
 
 # 33: IRQ1
 _irq1:
-	pushal
-    cld
-    call keyboard
+    pushal
+    mov $1, %eax
+    push %eax
+    call default_handler
+    pop %eax
     popal
     iret
    

@@ -47,7 +47,6 @@ char kbdus[128] =
 
 void keyboard() {
     unsigned char c = inb(0x60);
-    if (!(c & 0x80)) 
+    if (!(c & 0x80))
         putchar(kbdus[c]);
-    outb(0x20, 0x20);
 }

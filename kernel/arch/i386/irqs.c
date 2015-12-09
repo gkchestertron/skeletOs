@@ -68,9 +68,11 @@ void irq_install()
 	idt_set_gate(47, (unsigned)_irq15, 0x08, 0x8E);
 }
 
-void default_handler() {
+void default_handler(int i) {
+    if (i == 1)
+        keyboard();
     outb(0x20, 0x20);
-    outb(0xA0, 0x20);
+    /* outb(0xA0, 0x20); */
 }
 
 void timer() {
