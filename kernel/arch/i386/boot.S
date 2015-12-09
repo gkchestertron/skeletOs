@@ -64,9 +64,7 @@ _idt_load:
     lidt (_idtp)
     ret
 
-.global _int_handler
-_int_handler:
-    hlt
+.size _start, . - _start
 
 # Service Routines (ISRs) right here!
 .global _isr0
@@ -346,24 +344,42 @@ isr_common_stub:
 
 # 32: IRQ0
 _irq0:
-    cli
-    push 0    # Note that these don't push an error code on the stack:
-    push 32
-    jmp irq_common_stub
+    /* cli */
+    /* push 0    # Note that these don't push an error code on the stack: */
+    /* push 32 */
+    /* sli */
+    /* iret */
+   	pushal
+    cld
+    call timer
+	mov $0x20, %al 
+  	out %al, $0x20 
+    popal
+    iret
 
 # 33: IRQ1
 _irq1:
-    cli
-    push 0    # Note that these don't push an error code on the stack:
-    push 33
-    jmp irq_common_stub
-
+    /* cli */
+    /* push 0    # Note that these don't push an error code on the stack: */
+    /* push 33 */
+	pushal
+    cld
+    call keyboard
+	mov $0x20, %al 
+  	out %al, $0x21 
+    popal
+    iret
+   
 # 34: IRQ2
 _irq2:
-    cli
-    push 0    # Note that these don't push an error code on the stack:
-    push 34
-    jmp irq_common_stub
+    /* cli */
+    /* push 0    # Note that these don't push an error code on the stack: */
+    /* push 34 */
+    /* jmp irq_common_stub */
+    /* pusha */
+    /* call keyboard */
+    /* jmp irq_common_stub */
+    iret
 
 # 35: IRQ3
 _irq3:
@@ -456,31 +472,12 @@ _irq15:
     push 47
     jmp irq_common_stub
 
-.extern _irq_handler
-
-# This is a stub that we have created for IRQ based ISRs. This calls
-# '_irq_handler' in our C code. We need to create this in an 'irq.c'
+# irq dummy common stub until I figure out why the frack these things are behaving
 irq_common_stub:
-    pusha
-    push %ds
-    push %es
-    push %fs
-    push %gs
-    mov 0x10, %ax 
-    mov %ax, %ds 
-    mov %ax, %es 
-    mov %ax, %fs 
-    mov %ax, %gs 
-    mov %esp, %eax 
-    push %eax
-    mov _irq_handler, %eax
-    call %eax
-    pop %eax
-    pop %gs
-    pop %fs
-    pop %es
-    pop %ds
-    popa
-    add 8, %esp
+    pushal
+    cld
+    call other_handler
+    popal
+	mov 0x20, %al 
+  	out %al, $0x20 
     iret
-.size _start, . - _start
