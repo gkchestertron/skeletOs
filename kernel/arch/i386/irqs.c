@@ -2,6 +2,7 @@
 
 #include <kernel/idt.h>
 #include <kernel/io.h>
+#include <kernel/key.h>
 
 /* These are own ISRs that point to our special IRQ handler
 *  instead of the regular 'fault_handler' function */
@@ -68,11 +69,29 @@ void irq_install()
 	idt_set_gate(47, (unsigned)_irq15, 0x08, 0x8E);
 }
 
+void *irq_handlers[16] = {
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0
+};
+
+void set_irq_handler(int irq_num, void (*handler)(void)) {
+    irq_handlers[irq_num] = handler;
+}
+
 void default_handler(int i) {
-    if (i == 1)
-        keyboard();
+    void (*handler)(void);
+    handler = irq_handlers[i];
+    if (handler)
+        handler();
+
+    // code for PIC1
     outb(0x20, 0x20);
-    /* outb(0xA0, 0x20); */
+
+    // code for PIC2
+    if (i > 7)
+        outb(0xA0, 0x20);
 }
 
 void timer() {

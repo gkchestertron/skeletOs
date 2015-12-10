@@ -1,7 +1,7 @@
-#ifndef _KERNEL_TTY_H
-#define _KERNEL_TTY_H
+#ifndef _KERNEL_KEY_H
+#define _KERNEL_KEY_H
 
-uint8_t inb(uint16_t port);
-void keyboard();
+void keyboard_controller();
+void keyboard_handler(char);
 
 #endif

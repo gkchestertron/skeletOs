@@ -1,6 +1,5 @@
 #include <stdbool.h>
 #include <stddef.h>
-#include <stdint.h>
 #include <string.h>
 
 #include <kernel/io.h>
@@ -45,8 +44,14 @@ char kbdus[128] =
     0,	/* All other keys are undefined */
 };
 
-void keyboard() {
+int (*keyboard_handler)(char);
+
+void set_keyboard_handler(int (*handler)(char)) {
+    keyboard_handler = handler;
+}
+
+void keyboard_controller() {
     unsigned char c = inb(0x60);
     if (!(c & 0x80))
-        putchar(kbdus[c]);
+        keyboard_handler(kbdus[c]);
 }

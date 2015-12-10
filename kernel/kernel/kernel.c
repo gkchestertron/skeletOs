@@ -19,6 +19,8 @@ void kernel_early (void) {
 	terminal_initialize();
 	printf(" skeletOs welcomes you!\n");
     printf("\nskOsh~> ");
+    set_irq_handler(1, keyboard_controller);
+    set_keyboard_handler(putchar);
     __asm__ __volatile__ ("sti");
 }
 
